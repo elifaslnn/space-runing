@@ -72,6 +72,9 @@ int space_garbage[8][8]={
 {0,0,1,0,0,0,0,0}
 };
 
+
+//bu commit benden abi elif de harişka birisi 
+
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(health_1, OUTPUT);
