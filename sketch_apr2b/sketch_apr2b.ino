@@ -16,6 +16,10 @@ int select = 27;
 int health_1=22;
 int health_2=23;
 int health_3=24;
+int potm=A7;
+int value=0;
+
+
 
 int rocket[8][8]={
 {0,0,0,0,0,0,0,0},
@@ -72,6 +76,30 @@ int space_garbage[8][8]={
 {0,0,1,0,0,0,0,0}
 };
 
+int hard[8][8]={
+{0,1,1,0,0,1,1,0},
+{0,1,1,0,0,1,1,0},
+{0,0,0,0,0,0,0,0},
+{0,1,1,0,0,1,1,0},
+{0,1,1,0,0,1,1,0},
+{0,1,1,0,0,1,1,0},
+{0,1,1,0,0,1,1,0},
+{0,1,1,0,0,1,1,0}
+};
+
+int easy[8][8]={
+{0,0,0,1,1,0,0,0},
+{0,0,0,1,1,0,0,0},
+{0,0,0,0,0,0,0,0},
+{0,0,0,1,1,0,0,0},
+{0,0,0,1,1,0,0,0},
+{0,0,0,1,1,0,0,0},
+{0,0,0,1,1,0,0,0},
+{0,0,0,1,1,0,0,0}
+};
+
+int i=0;
+
 
 //bu commit benden abi elif de harişka birisi 
 
@@ -94,40 +122,45 @@ void setup() {
   display.clearDisplay();
 
   // Draw a single pixel in white
-  display.drawPixel(10, 10, SSD1306_WHITE);
+  //display.drawPixel(10, 10, SSD1306_WHITE);
   //draw_rocket();
-  draw_health();
+  //draw_health();
+
+  display.drawRoundRect(70, 9, 20,50,
+  8, SSD1306_WHITE);
+  
+  //draw_rocket(value);
+
+    display.drawRoundRect(45, 9, 20,50,
+  8, SSD1306_WHITE);
+
+
   display.display();
 
 }
 
-void draw_rocket(){
+
+
+void draw_rocket(int val){
   for(int i=0;i<8;i++){
     for(int j=0;j<8;j++){
-      if(rocket[i][j]==1){
-      display.drawPixel(i, j, SSD1306_WHITE);
+      if(hard[i][j]==1){
+      display.drawPixel(i, j+val*8, SSD1306_WHITE);
       }
     }
   }
-
-}
-
-
-void draw_health(){
-  for(int i=0;i<8;i++){
-    for(int j=0;j<8;j++){
-      if(space_garbage[i][j]==1){
-      display.drawPixel(i, j, SSD1306_WHITE);
-      }
-    }
-  }
-
 }
 
 
 
 // the loop function runs over and over again forever
 void loop() {
+  display.clearDisplay();
+  value=analogRead(potm);
+  value=value/128;
+  draw_rocket(value);
+  display.display();
+  delay(0);
 
   if(digitalRead(up))
     digitalWrite(health_1, HIGH);  // turn the LED on (HIGH is the voltage level)
