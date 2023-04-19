@@ -29,8 +29,6 @@ int fire_1=50;//led
 int fire_2=51;//led
 int fire_3=52;//led
 int buzz=7;//buzzer
-<<<<<<< HEAD
-=======
 int torch_ldr=A0;
 
 //7 segments
@@ -60,7 +58,6 @@ int seg3_7 = 49;
 
 
 
->>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
 
 int empty[8][8]={
 {0,0,0,0,0,0,0,0},
@@ -241,11 +238,7 @@ void setup() {
   pinMode(fire_2, OUTPUT);
   pinMode(fire_3, OUTPUT);
   pinMode(buzz,OUTPUT);
-<<<<<<< HEAD
-
-=======
   pinMode(torch_ldr, INPUT);
->>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
 
   pinMode(up, INPUT);
   pinMode(down, INPUT);
@@ -322,10 +315,7 @@ int fire_arr[3]={1,1,1};
 int health_arr[3]={1,1,1};
 int game_delay=200;
 int immunity_count=0;
-<<<<<<< HEAD
-=======
 int loop_counter=0;
->>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
 bool check=false;
 
 
@@ -408,8 +398,6 @@ int check_bullet_list(){ // cephaneyi kontrol eden ates edip etmemeyi kontrol ed
   return var;
   }
 
-<<<<<<< HEAD
-=======
 void nesne_loop_sifirla(){
   for(int i=0 ; i<15; i++){
     for(int j=0 ; j<9; j++){
@@ -419,27 +407,11 @@ void nesne_loop_sifirla(){
     }
   }
 
->>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
 void check_health_list(){ // toplam can miktarını kontrol eden eğer sıfıra düşerse menu loop'una geri döndüren fonksiyon
   int sum_of_health = 0;
   for(int i=0 ; i<3; i++){
     if(health_arr[i] != 0){sum_of_health++;}
     }
-<<<<<<< HEAD
-  if(sum_of_health == 0){menu_loop=0;}
-  }
-
-
-void fill_screen_with_white(int draw_type){
- for(int i=0; i<128; i++){
-  for(int j=0; j<64; j++ ){
-     bool pixel_state = display.getPixel(x, y);
-     
-    }
-  }
-}
-
-=======
   if(sum_of_health == 0){
     menu_loop=1;
     loop_counter=0;
@@ -562,11 +534,9 @@ void seven_segment_led_control(int number,int game_delay){
        match_num_with_funcs(digit3,0);
 
 }
->>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
 
 // the loop function runs over and over again forever
 
-int loop_counter=0;
 void loop() {
   //delay(0);
   value=analogRead(potm);
@@ -699,17 +669,7 @@ void loop() {
     shot_down(value);
     check_health_list();
     update_leds();
-<<<<<<< HEAD
-
-
-    if(loop_counter>3){display.invertDisplay(true);}
-
-    if(loop_counter>6){display.invertDisplay(false);}
-
-  
-=======
     seven_segment_led_control(loop_counter,game_delay);
->>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
 
     display.display();
     if(oyuntipi==1)
@@ -720,10 +680,6 @@ void loop() {
     }    
   }
 
-<<<<<<< HEAD
-loop_counter++;
-}
-=======
     if (ldrValue < 512) {display.invertDisplay(false);}//koyu 
     else {display.invertDisplay(true);}// açık
 
@@ -732,4 +688,3 @@ loop_counter++;
 
 loop_counter++;
 }
->>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
