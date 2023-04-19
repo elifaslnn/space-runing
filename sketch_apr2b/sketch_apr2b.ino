@@ -1,6 +1,10 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <stdlib.h>
+#include <SevSeg.h>
+
+SevSeg sevseg; // Create an instance of the SevSeg library
+
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
@@ -25,6 +29,38 @@ int fire_1=50;//led
 int fire_2=51;//led
 int fire_3=52;//led
 int buzz=7;//buzzer
+<<<<<<< HEAD
+=======
+int torch_ldr=A0;
+
+//7 segments
+int seg1_1 = 29;
+int seg1_2 = 30;
+int seg1_3 = 31;
+int seg1_4 = 32;
+int seg1_5 = 33;
+int seg1_6 = 34;
+int seg1_7 = 35;
+
+int seg2_1 = 36;
+int seg2_2 = 37;
+int seg2_3 = 38;
+int seg2_4 = 39;
+int seg2_5 = 40;
+int seg2_6 = 41;
+int seg2_7 = 42;
+
+int seg3_1 = 43;
+int seg3_2 = 44;
+int seg3_3 = 45;
+int seg3_4 = 46;
+int seg3_5 = 47;
+int seg3_6 = 48;
+int seg3_7 = 49;
+
+
+
+>>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
 
 int empty[8][8]={
 {0,0,0,0,0,0,0,0},
@@ -205,7 +241,11 @@ void setup() {
   pinMode(fire_2, OUTPUT);
   pinMode(fire_3, OUTPUT);
   pinMode(buzz,OUTPUT);
+<<<<<<< HEAD
 
+=======
+  pinMode(torch_ldr, INPUT);
+>>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
 
   pinMode(up, INPUT);
   pinMode(down, INPUT);
@@ -224,6 +264,29 @@ void setup() {
 
   display.display();
 
+
+  pinMode(seg1_1, OUTPUT); // Pinlerin çıkış pini olduğunu belirtiyoruz.
+  pinMode(seg1_2, OUTPUT);
+  pinMode(seg1_3, OUTPUT);
+  pinMode(seg1_4, OUTPUT);
+  pinMode(seg1_5, OUTPUT);
+  pinMode(seg1_6, OUTPUT);
+  pinMode(seg1_7, OUTPUT);
+  pinMode(seg2_1, OUTPUT); // Pinlerin çıkış pini olduğunu belirtiyoruz.
+  pinMode(seg2_2, OUTPUT);
+  pinMode(seg2_3, OUTPUT);
+  pinMode(seg2_4, OUTPUT);
+  pinMode(seg2_5, OUTPUT);
+  pinMode(seg2_6, OUTPUT);
+  pinMode(seg2_7, OUTPUT);
+  pinMode(seg3_1, OUTPUT); // Pinlerin çıkış pini olduğunu belirtiyoruz.
+  pinMode(seg3_2, OUTPUT);
+  pinMode(seg3_3, OUTPUT);
+  pinMode(seg3_4, OUTPUT);
+  pinMode(seg3_5, OUTPUT);
+  pinMode(seg3_6, OUTPUT);
+  pinMode(seg3_7, OUTPUT);
+  
 }
 
 int nesne_0[9]={9,1,9,1,9,1,9,1,15};
@@ -259,6 +322,10 @@ int fire_arr[3]={1,1,1};
 int health_arr[3]={1,1,1};
 int game_delay=200;
 int immunity_count=0;
+<<<<<<< HEAD
+=======
+int loop_counter=0;
+>>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
 bool check=false;
 
 
@@ -341,11 +408,24 @@ int check_bullet_list(){ // cephaneyi kontrol eden ates edip etmemeyi kontrol ed
   return var;
   }
 
+<<<<<<< HEAD
+=======
+void nesne_loop_sifirla(){
+  for(int i=0 ; i<15; i++){
+    for(int j=0 ; j<9; j++){
+      nesne_loop[i][j]=9;
+      if(j==8){nesne_loop[i][j]=15;}
+      }
+    }
+  }
+
+>>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
 void check_health_list(){ // toplam can miktarını kontrol eden eğer sıfıra düşerse menu loop'una geri döndüren fonksiyon
   int sum_of_health = 0;
   for(int i=0 ; i<3; i++){
     if(health_arr[i] != 0){sum_of_health++;}
     }
+<<<<<<< HEAD
   if(sum_of_health == 0){menu_loop=0;}
   }
 
@@ -359,6 +439,130 @@ void fill_screen_with_white(int draw_type){
   }
 }
 
+=======
+  if(sum_of_health == 0){
+    menu_loop=1;
+    loop_counter=0;
+    for(int z=0; z<3 ; z++){health_arr[z]=1;}
+    nesne_loop_sifirla();
+    }
+  }
+  
+void print_0(int seg_num){
+        digitalWrite(seg1_1 + seg_num*7,HIGH);
+        digitalWrite(seg1_2 + seg_num*7,HIGH);
+        digitalWrite(seg1_3 + seg_num*7,HIGH);
+        digitalWrite(seg1_4 + seg_num*7,HIGH);
+        digitalWrite(seg1_5 + seg_num*7,HIGH);
+        digitalWrite(seg1_6 + seg_num*7,HIGH);
+        digitalWrite(seg1_7 + seg_num*7,LOW);
+      }
+      
+      void print_1(int seg_num){
+        digitalWrite(seg1_1 + seg_num*7,LOW);
+        digitalWrite(seg1_2 + seg_num*7,HIGH);
+        digitalWrite(seg1_3 + seg_num*7,HIGH);
+        digitalWrite(seg1_4 + seg_num*7,LOW);
+        digitalWrite(seg1_5 + seg_num*7,LOW);
+        digitalWrite(seg1_6 + seg_num*7,LOW);
+        digitalWrite(seg1_7 + seg_num*7,LOW);
+      }
+      void print_2(int seg_num){
+        digitalWrite(seg1_1 + seg_num*7,HIGH);
+        digitalWrite(seg1_2 + seg_num*7,HIGH);
+        digitalWrite(seg1_3 + seg_num*7,LOW);
+        digitalWrite(seg1_4 + seg_num*7,HIGH);
+        digitalWrite(seg1_5 + seg_num*7,HIGH);
+        digitalWrite(seg1_6 + seg_num*7,LOW);
+        digitalWrite(seg1_7 + seg_num*7,HIGH);
+      }
+      void print_3(int seg_num){
+        digitalWrite(seg1_1 + seg_num*7,HIGH);
+        digitalWrite(seg1_2 + seg_num*7,HIGH);
+        digitalWrite(seg1_3 + seg_num*7,HIGH);
+        digitalWrite(seg1_4 + seg_num*7,HIGH);
+        digitalWrite(seg1_5 + seg_num*7,LOW);
+        digitalWrite(seg1_6 + seg_num*7,LOW);
+        digitalWrite(seg1_7 + seg_num*7,HIGH);
+      }
+      void print_4(int seg_num){
+        digitalWrite(seg1_1 + seg_num*7,LOW);
+        digitalWrite(seg1_2 + seg_num*7,HIGH);
+        digitalWrite(seg1_3 + seg_num*7,HIGH);
+        digitalWrite(seg1_4 + seg_num*7,LOW);
+        digitalWrite(seg1_5 + seg_num*7,LOW);
+        digitalWrite(seg1_6 + seg_num*7,HIGH);
+        digitalWrite(seg1_7 + seg_num*7,HIGH);
+      }
+      void print_5(int seg_num){
+        digitalWrite(seg1_1 + seg_num*7,HIGH);
+        digitalWrite(seg1_2 + seg_num*7,LOW);
+        digitalWrite(seg1_3 + seg_num*7,HIGH);
+        digitalWrite(seg1_4 + seg_num*7,HIGH);
+        digitalWrite(seg1_5 + seg_num*7,LOW);
+        digitalWrite(seg1_6 + seg_num*7,HIGH);
+        digitalWrite(seg1_7 + seg_num*7,HIGH);
+      }
+      void print_6(int seg_num){
+        digitalWrite(seg1_1 + seg_num*7,HIGH);
+        digitalWrite(seg1_2 + seg_num*7,LOW);
+        digitalWrite(seg1_3 + seg_num*7,HIGH);
+        digitalWrite(seg1_4 + seg_num*7,HIGH);
+        digitalWrite(seg1_5 + seg_num*7,HIGH);
+        digitalWrite(seg1_6 + seg_num*7,HIGH);
+        digitalWrite(seg1_7 + seg_num*7,HIGH);
+      }
+      void print_7(int seg_num){
+        digitalWrite(seg1_1 + seg_num*7,HIGH);
+        digitalWrite(seg1_2 + seg_num*7,HIGH);
+        digitalWrite(seg1_3 + seg_num*7,HIGH);
+        digitalWrite(seg1_4 + seg_num*7,LOW);
+        digitalWrite(seg1_5 + seg_num*7,LOW);
+        digitalWrite(seg1_6 + seg_num*7,LOW);
+        digitalWrite(seg1_7 + seg_num*7,LOW);
+      }
+      void print_8(int seg_num){
+        digitalWrite(seg1_1 + seg_num*7,HIGH);
+        digitalWrite(seg1_2 + seg_num*7,HIGH);
+        digitalWrite(seg1_3 + seg_num*7,HIGH);
+        digitalWrite(seg1_4 + seg_num*7,HIGH);
+        digitalWrite(seg1_5 + seg_num*7,HIGH);
+        digitalWrite(seg1_6 + seg_num*7,HIGH);
+        digitalWrite(seg1_7 + seg_num*7,HIGH);
+      }
+      void print_9(int seg_num){
+        digitalWrite(seg1_1 + seg_num*7,HIGH);
+        digitalWrite(seg1_2 + seg_num*7,HIGH);
+        digitalWrite(seg1_3 + seg_num*7,HIGH);
+        digitalWrite(seg1_4 + seg_num*7,HIGH);
+        digitalWrite(seg1_5 + seg_num*7,LOW);
+        digitalWrite(seg1_6 + seg_num*7,HIGH);
+        digitalWrite(seg1_7 + seg_num*7,HIGH);
+      }
+      void match_num_with_funcs(int num,int seg){
+        if(num == 0){print_0(seg);}
+        else if(num == 1){print_1(seg);}
+        else if(num == 2){print_2(seg);}
+        else if(num == 3){print_3(seg);}
+        else if(num == 4){print_4(seg);}
+        else if(num == 5){print_5(seg);}
+        else if(num == 7){print_7(seg);}
+        else if(num == 8){print_8(seg);}
+        else if(num == 9){print_9(seg);}
+        }
+void seven_segment_led_control(int number,int game_delay){
+
+      int digit1 = number / 100; // Extract the hundreds digit ------> seg3 for 2
+      int digit2 = (number / 10) % 10; // Extract the tens digit ------> seg2 for 1
+      int digit3 = number % 10; // Extract the ones digit ------> seg1 for 0
+
+       delay(game_delay);
+       match_num_with_funcs(digit1,2);
+       match_num_with_funcs(digit2,1);
+       match_num_with_funcs(digit3,0);
+
+}
+>>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
 
 // the loop function runs over and over again forever
 
@@ -366,6 +570,7 @@ int loop_counter=0;
 void loop() {
   //delay(0);
   value=analogRead(potm);
+  int ldrValue = analogRead(torch_ldr);
   value=value/128;
   display.display();
   int draw_type = 0;
@@ -494,6 +699,7 @@ void loop() {
     shot_down(value);
     check_health_list();
     update_leds();
+<<<<<<< HEAD
 
 
     if(loop_counter>3){display.invertDisplay(true);}
@@ -501,6 +707,9 @@ void loop() {
     if(loop_counter>6){display.invertDisplay(false);}
 
   
+=======
+    seven_segment_led_control(loop_counter,game_delay);
+>>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
 
     display.display();
     if(oyuntipi==1)
@@ -511,5 +720,16 @@ void loop() {
     }    
   }
 
+<<<<<<< HEAD
 loop_counter++;
 }
+=======
+    if (ldrValue < 512) {display.invertDisplay(false);}//koyu 
+    else {display.invertDisplay(true);}// açık
+
+
+
+
+loop_counter++;
+}
+>>>>>>> f96d47d (torch_ldr added , seven segments works and also little fixes)
