@@ -219,8 +219,6 @@ void draw_menu(){
     draw_object_reverse(easy,7,3);
     draw_object_reverse(easy,7,4);
     draw_object_reverse(easy,7,5);
-
-    
   }
 
   display.display();
@@ -283,7 +281,7 @@ void setup() {
 }
 
 int nesne_0[9]={9,1,9,1,9,1,9,1,15};
-int nesne_1[9]={1,0,1,0,1,0,1,0};
+int nesne_1[9]={1,9,1,9,1,9,1,9,15};
 int nesne_loop[15][9]={
 {9,9,9,9,9,9,9,9,15},
 {9,9,9,9,9,9,9,9,15},
