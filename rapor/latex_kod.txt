@@ -1,0 +1,223 @@
+ \documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{KOCAELİ ÜNİVERSİTESİ BİLGİSAYAR MÜHENDİSLİĞİ
+BÖLÜMÜ PROGRAMLAMA LABORATUVARI 2 PROJE 2\\
+{\footnotesizen ARDUNIO OYUN PROJESİ}
+}
+
+\author{\IEEEauthorblockN{Elif Aslan}
+\IEEEauthorblockA{\textit{Bilgisayar Mühendisliği} \\
+Kocaeli University \\
+210201056@kocaeli.edu.tr}
+\and
+\IEEEauthorblockN{Oğuzhan Bülbül}
+\IEEEauthorblockA{\textit{Bilgisayar Mühendisliği} \\
+Kocaeli University \\
+210201063@kocaeli.edu.tr}
+}
+
+\begin{document}
+
+\maketitle
+
+
+\section{Özet}
+Projenin genel amacı mikro işlemciler, sensörler, devre elemanları ve elektronik bilgisiyle algoirtma kurma ve kod yazmayı harmanlayarak sorun çözme , araştırma ve gömülü sistemler hakkında yeni öğrenimler kazanmak.Adunio mega ile entegre ve sensör bağlantılarını sağlayarak kodlama yapıldı.
+\newline\newline\newline
+
+
+\section{Giriş}
+\newline
+\newline
+\subsection{Kütüphanelerin eklenmesi}
+OLED (Organik Işık Yayan Diyot) ekranı ve 7 segment ekranını kontrol etmek için kullanılan üç farklı kütüphane içerir. Bu kütüphaneler şunlardır: Adafruit\_GFX, Adafruit\_SSD1306 ve SevSeg.
+\newline
+Adafruit\_GFX ve Adafruit\_SSD1306 kütüphaneleri, 128x64 piksel boyutunda bir OLED ekranı kontrol etmek için kullanılır. Bu kütüphaneler, OLED ekranı için gerekli parametrelerle birlikte örneklenir. Display nesnesi, ekranı kontrol etmek için kullanılır.
+\newline
+SevSeg kütüphanesi ise, 7 segment ekranını kontrol etmek için kullanılır. SevSeg kütüphanesi örneği, "sevseg" adıyla oluşturulur. Fakat proje içinde kullanılmasına gerek duyulmadan kendi geliştirdiğimiz algortima ve fonksiyonlarla seven segment display'lere istenilen değerleri yansıttık.
+\subsection{Değişkenlerin  Tanımı}
+'#define' ifadeleri, reset pini ve OLED ekranının I2C adresi için sabit değerler ayarlamak için kullanılır. I2C adresi, 128x64 piksel boyutunda bir OLED ekran için 0x3D olarak ayarlanır.
+Arduino kartının uygun pinlerine bağlandığında OLED ekranı ve 7 segment ekranını kontrol etmek için gerekli olan kütüphaneleri ve nesneleri ayarlar. Bu şekilde, Arduino kartı, OLED ekranı ve 7 segment ekranı kullanılarak istenen görevleri yerine getirebilir.
+\newline
+int up = 25;//buton
+\newline
+int down = 26;//buton
+\newline
+int select = 27;//buton
+\newline
+İlk üç değişken, 25, 26 ve 27 numaralı butonların bağlantı noktalarını tanımlar. Bu butonlar, kontrol etmek istediğiniz bir cihaza bağlanabilir.Bu pinler ile menu arayüzünde gezinmek için kullanıldı, aşağı yukarı ve seçim yapma
+\newline
+int health\_1=22;//led
+\newline
+int health\_2=23;//led
+\newline
+int health\_3=24;//led
+\newline
+Sonraki üç değişken, 22, 23 ve 24 numaralı LED'lerin bağlantı noktalarını belirtir. Bu LED'ler, belirli bir durumu veya olayı göstermek için kullanılabilir. Oyuncunun can haklarını göstermek için kullanılır.
+\newline
+"potm" değişkeni, bir potansiyometrenin bağlantı noktasını belirtir. Potansiyometre, bir devrenin sinyal seviyesini değiştirmek için kullanılabilir.
+\newline
+"fire" değişkeni, bir butonun bağlantı noktasını belirtir. Bu buton, ateş etmek veya belirli bir aksiyonu gerçekleştirmek için kullanılabilir.
+\newline"fire\_1", "fire\_2" ve "fire\_3" değişkenleri, 50, 51 ve 52 numaralı LED'lerin bağlantı noktalarını belirtir. Bu LED'ler, belirli bir durumu veya olayı göstermek için kullanılabilir. Oyuncunun mermi sayılarını görmesini ve kullanım durumuna göre miktarını görmesini sağlar.
+\newline
+"buzz" değişkeni, bir buzzer'in bağlantı noktasını belirtir. Buzzer, belirli bir sinyali veya uyarıyı çalmak için kullanılabilir.
+\newline
+"torch\_ldr" değişkeni, bir LDR (Işık Bağımlı Direnç) bağlantı noktasını belirtir. Bu bileşen, belirli bir ışık seviyesini algılamak için kullanılabilir.
+\newline
+Son olarak, "seg1\_1" ile "seg3\_7" arasındaki değişkenler, 7 segment ekranının her bir segmentinin bağlantı noktalarını belirtir. Bu ekran, sayıları veya harfleri görüntülemek için kullanılabilir.
+\newline
+OYUN OBJELERİ
+Oyun geliştirme sürecinde, obje resimleri genellikle oyun tasarımı sırasında bir konsept çiziminden başlayarak, daha sonra dijital ortamda çizilerek oluşturulur. Bu obje resimleri, oyunun yapısına uygun olarak ölçeklendirilerek, farklı açılardan çekilerek ve gerektiğinde animasyonlu hale getirilerek hazırlanır.
+\newline 
+bu objelerin hepsi bitmap gibi tek tek bizim tarafımızdan tasarlandı.
+\newline
+\newline\newline
+void draw\_object(int object[][8],int x, int y, int draw\_type)
+\newline
+verilen koordinatlarda belirli bir nesneyi ekrana çizmek için kullanılır. Fonksiyonun parametreleri şu şekildedir:
+
+    object: Çizilecek nesnenin resim matrisi. Matris 8x8 boyutlarındadır.
+    x: Çizim başlangıç noktasının x koordinatı.
+    y: Çizim başlangıç noktasının y koordinatı.
+    draw\_type: Çizim tipini belirten bir parametre. 0 olarak ayarlanırsa, nesne siyah beyaz olarak çizilir. 1 olarak ayarlanırsa, nesne ters renkli olarak çizilir.
+
+Fonksiyon, iç içe iki döngü kullanarak, nesnenin her bir pikselini çizer. draw\_type parametresi, çizim tipine göre piksel rengini belirler. Nesne matrisinde 1 değeri olan pikseller beyaz olarak çizilirken, 0 değeri olan pikseller siyah olarak çizilir. Ters renk çizim modunda, nesne matrisinde 0 değeri olan pikseller beyaz olarak çizilirken, 1 değeri olan pikseller siyah olarak çizilir.
+\newline
+void draw\_menu()
+\newline
+Bu kod, bir OLED ekranda menü çizmek için kullanılıyor. "oyuntipi" değişkeni, seçilen zorluk seviyesini belirtir. "draw\_menu" fonksiyonu, menünün görünümünü çizer. Kolay ve zor seçenekleri, belirli koordinatlarda çizilmiş "easy" adlı bir matrisi kullanarak çizilir. "draw\_object" fonksiyonu, matristeki her bir elemanın bir piksel olarak çizilmesini sağlar. "draw\_object\_reverse" fonksiyonu, matristeki 0 elemanlarını beyaz, 1 elemanlarını ise siyah olarak çizer. Menü seçeneği belirlendikten sonra, seçilen seçeneğin görseli değiştirilir.
+\newline
+void setup()
+\newline
+Bu kod, Arduino setup() fonksiyonunu içerir. Bu fonksiyon, Arduino başlatıldığında yalnızca bir kez çağrılır ve başlangıçta yapılacak ayarları ve pinleri belirler.
+
+setup() fonksiyonunda, öncelikle sağlık ve ateş LED'lerinin pinleri ile buzzer ve fener LDR sensörünün pinleri OUTPUT veya INPUT olarak ayarlanır. Ardından, SSD1306 OLED ekranın adresi kullanılarak başlatılır ve ekranda menüyü çizmek için draw\_menu() fonksiyonu çağrılır.
+
+Ayrıca, 3 tane 7-segment ekranın pinleri OUTPUT olarak ayarlanır.
+
+\newline
+void catch\_health\_bullet(int value)
+\newline
+Bu kodda "catch\_health\_bullet" adında bir fonksiyon tanımlanıyor. Bu fonksiyon, oyunun sağlık ve mermi öğelerinden birini yakalarsa (nesne\_loop dizisi kullanılarak kontrol edilir), sağlık veya mermi öğesinin sağlık dizisi veya mermi dizisindeki eksik bir öğe ile değiştirilmesini sağlar. Eğer sağlık öğesi yakalanırsa, sağlık dizisindeki ilk eksik öğe değiştirilir. Eğer mermi yakalanırsa, mermi dizisindeki ilk eksik öğe değiştirilir.
+\newline
+void shot\_down(int value)
+\newline
+Bu fonksiyon, rokete nesne çarptığında çalışır ve uzay gemisinin dokunulmazlık süresini kontrol eder. Eğer check değişkeni false ise, uzay gemisi can kaybeder ve sağlık array listesindeki bir canı sıfırlar. Ayrıca, bir buzzer kullanarak çarpma sesi çıkarır. Dokunulmazlık süresi boyunca check değişkeni true olur ve immunity\_count değişkeni artar. Eğer immunity\_count 3 olursa, check değişkeni false yapılır ve dokunulmazlık süresi sona erer.
+\newline
+void update\_leds()
+\newline
+Bu fonksiyon, health array listesi ve fire array listesi üzerinden ledleri kontrol eder ve sağlık ve mermi durumlarına göre ledleri açar veya kapatır. health\_arr listesi, oyuncunun sağlık durumunu temsil ederken fire\_arr listesi, oyuncunun mevcut mermi durumunu temsil eder. Her bir led, belirli bir sağlık veya mermi durumunu temsil eder. Örneğin, health\_1 ledi, oyuncunun birinci canını temsil eder. Eğer health\_arr[0] değeri 1 ise, health\_1 ledi yanar. Aksi takdirde, led söner. Benzer şekilde, fire\_1 ledi, oyuncunun birinci mermi durumunu temsil eder. Eğer fire\_arr[0] değeri 1 ise, fire\_1 ledi yanar. Aksi takdirde, led söner. Bu fonksiyon, oyunun oynanabilirliğini artırmak için önemlidir, çünkü oyuncu sağlık ve mermi durumlarını anlık olarak görebilir.
+\newline
+void draw\_space\_map(int draw\_type)
+\newline
+Bu fonksiyon, oyun alanındaki nesneleri ekranda çizmek için kullanılır. "draw\_type" değişkeni, nesnelerin çizilme şeklini belirler. "0" değeri, nesnelerin silinerek yeniden çizilmesi için kullanılırken, "1" değeri, nesnelerin üzerine yazarak çizilmesi için kullanılır. "nesne\_loop" adlı 2 boyutlu bir dizide saklanan nesneler, türlerine göre ayrılan "health", "meteor", "space\_garbage" ve "mermi" değişkenleri ile çizilir.
+\newline
+int check\_bullet\_list()
+\newline
+Bu fonksiyon, oyuncunun kalan mermi sayısını kontrol eder ve atış yapılabilirliğini belirler. 3 adet mermi hakkı olduğu varsayılarak, "fire\_arr" listesindeki 1'lerin sayısı toplanır. Eğer listedeki 1'lerin sayısı 0'dan büyükse (yani en az 1 tane mermi varsa), fonksiyon 1 döndürür. Aksi takdirde, yani hiç mermi kalmadığında, fonksiyon 0 döndürür. Bu sayede, oyuncu mermi atmak için yeterli mermisi olmadığında ateş edemeyecektir.
+\newline
+void nesne\_loop\_sifirla()
+\newline
+Bu fonksiyon, nesne\_loop adlı iki boyutlu bir diziyi sıfırlar. Dizi, oyun ekranındaki nesneleri (sağlık ikonları, meteorlar, uzay çöpleri ve mermiler) tutar. Her bir eleman, ekrandaki bir konumu temsil eder. Fonksiyon, tüm elemanları 9 ve son sütunu 15 olarak ayarlar. Bu sayede, oyun ekranında nesnelerin belirtilmediği boş alanları temsil eden "9" değeri kullanılabilirken, son sütunda nesnelerin dışarı taşmasını engellemek için "15" değeri kullanılır.
+\newline
+void check\_health\_list()
+\newline
+Bu fonksiyon, oyuncunun toplam can miktarını kontrol eder. Eğer oyuncunun canı sıfıra düşerse, menu loop'una geri dönmek için menu\_loop değişkenini 1 yapar ve loop\_counter değişkenini sıfırlar. Ayrıca, health\_arr ve nesne\_loop dizilerini de başlangıç değerlerine sıfırlar. Bu işlemler oyunu baştan başlatır.
+\newline
+seven segment fonksiyonları
+\newline
+Bu kod, bir 7 segment ekranını kontrol eden bir programın parçası gibi görünüyor. Kod, ekranda rakamları göstermek için kullanılan print\_0, print\_1, print\_2 vb. işlevleri tanımlar. Her işlev, segmentlere (muhtemelen ekranın segmentlerine bağlı olan) birkaç pini YÜKSEK veya DÜŞÜK durumuna ayarlar.
+
+match\_num\_with\_funcs işlevi bir tamsayı num ve bir tamsayı seg alır ve num değerine bağlı olarak uygun yazdırma işlevini seçer. Örneğin, num 3 ise, print\_3(seg) işlevini çağırır. Seg, birden fazla 7 segment ekranın hangisinin rakamı göstermek için kullanılacağını belirtiyor gibi görünüyor.
+
+Kodun geri kalanını görmeden, bunun genel programın nasıl uyduğuna tam olarak nasıl uyduğunu söylemek zor. Ancak, muhtemelen farklı num ve seg değerleriyle match\_num\_with\_funcs'ın tekrar tekrar çağrıldığı bir döngü var, böylece 7 segment ekranında rakam dizisi gösterilebilir.
+\newline\newline
+void loop()
+\newline
+bu kod bir Arduino programlama projesi gibi görünüyor. Kodun amacı, bir uzay gemisi ile bir uzay sahnesinde uçarken, karşılaşılan meteorlar, uzay çöpleri ve canları vurmaya çalışmak.
+\newline
+Kodun en dıştaki fonksiyonu loop() adında ve bir döngü içinde sonsuzca çalışıyor. İlk önce, analogRead() fonksiyonu ile analog sensörlerden gelen verileri okuyor. value adlı bir değişkene potansiyometrenin okuduğu değeri atıyor. ldrValue değişkeni ise bir LDR (ışık duyarlı direnç) sensöründen okunan değerdir.
+\newline
+Daha sonra, value değişkeni 128'e bölünüyor. Ardından, display.display() fonksiyonu çağrılarak, SSD1306 OLED ekranının içeriği görüntüleniyor.
+\newline
+Daha sonra, menu\_loop değişkeni while döngüsü içinde kontrol ediliyor. menu\_loop değişkeni, ana menüde mi yoksa oyun oynarken mi olunduğunu belirtir. while döngüsü içindeki kod, ana menüdeyken kullanıcının up, down veya select düğmelerine basması durumunda değişkenlerin değerlerini değiştirir. Bu kod, oyun oynanırken loop() fonksiyonu içindeki ana oyun döngüsüne geçiş yapılması için menu\_loop değişkeninin değerinin değiştirilmesi gerektiği durumlarda kullanılır.
+\newline
+Ana oyun döngüsüne geçildiğinde, uzay gemisi (rocket) ve diğer nesneler (meteor, uzay çöpü vb.) OLED ekrana çizilir. check\_bullet\_list() fonksiyonu, ateşlenen mermilerin nesnelere çarparak vurup vurmadığını kontrol eder. digitalRead(fire) fonksiyonu, ateş düğmesine basıldığında gerçekleşir. catch\_health\_bullet() fonksiyonu, canları vurarak artan sağlık puanlarını kontrol eder. shot\_down() fonksiyonu ise sağlık puanlarını düşürerek, oyunu bitirip bitirmediğini kontrol eder.
+\newline
+update\_leds() fonksiyonu, sağlık LED'lerini kontrol eder ve seven\_segment\_led\_control() fonksiyonu, oyun süresini sayan 7 segmentli LED'leri kontrol eder. OLED ekran display.display() fonksiyonu ile güncellenir. delay() fonksiyonu, oyun hızını kontrol etmek için kullanılır.
+\newline
+Son olarak, ldrValue değişkeni, OLED ekranın kontrastını kontrol etmek için kullanılır. Bu, LDR sensörünün okuduğu değere göre OLED ekranın siyah-beyaz tersini ayarlar.
+\newline
+\newline
+\subsection{LCD'YE GÖRÜNTÜ OLUŞTURMAK}
+\newline
+//GENEL
+ARDUNIO MEGA
+\newline
+Arduino Mega, elektronik projeleri için kullanılan bir mikrokontrolör kartıdır. Birçok dijital ve analog giriş/çıkış pini ile birlikte gelir, bu da farklı sensörler, motorlar ve diğer bileşenlerle bağlantı kurmayı kolaylaştırır. Ayrıca, USB bağlantısı aracılığıyla bilgisayara programlanabilir ve kontrol edilebilir. Arduino Mega, büyük projeler için daha fazla bellek ve daha fazla giriş/çıkış pini gerektirenler için ideal bir seçimdir.
+\newline
+TORCH\_LDR
+\newline
+TORCH\_LDR sensörü, aydınlatma seviyesini ölçmek için kullanılan bir sensördür. "Torch" kelimesi, sensörün yüksek hassasiyeti ve doğruluğu sayesinde düşük aydınlatma koşullarında bile çalışabileceği anlamında kullanılır.
+
+TORCH\_LDR sensörü, foto direnç adı verilen bir optik bileşen kullanarak çalışır. Foto direnç, ışığın düzeyine bağlı olarak direnci değişen bir malzemedir. Bu sensörün çıkışı, ölçülen ışık seviyesine göre değişen bir gerilim sinyalidir.
+
+TORCH\_LDR sensörü, arduino gibi mikrodenetleyicilerle kullanılabilecek şekilde tasarlanmıştır ve projelerinizde ışık seviyesine bağlı kararlar almanıza olanak tanır. Örneğin, bir oda lambasının otomatik olarak açılması ve kapanması veya bir güneş enerjili cihazın şarj edilmesi için kullanılabilir.
+\newline
+POT-HG
+\newline
+POT-HG, bir potansiyometredir. Potansiyometreler, dirençler gibi elektronik devre elemanlarıdır ve genellikle bir direncin değerini ayarlamak için kullanılır. POT-HG, diğer potansiyometrelere göre biraz daha özel bir yapıya sahiptir.
+\newline
+BUZZER
+\newline
+Buzzer, elektrik sinyallerini mekanik titreşimlere dönüştürerek ses üreten bir elektronik bileşendir. Buzzerlar, genellikle elektronik cihazlarda, alarm sistemlerinde, kapı zillerinde, araç sinyal lambalarında ve diğer birçok uygulamada kullanılır.
+\newline
+Buzzerlar, genellikle Arduino, Raspberry Pi gibi mikrodenetleyicilerle kullanılarak birçok projede kullanılabilir. Örneğin, bir Arduino projenizde bir uyarı sesi oluşturmak için buzzer kullanabilirsiniz. Buzzerın ses yüksekliği, çalışma süresi ve frekansı, Arduino kodunda yapılan programlamaya bağlı olarak değiştirilebilir.
+\section{Yöntem}
+\newline
+//FONK
+\newline
+YAZI FONK YÖNTEM
+
+\section{Tablolar}
+
+
+\subsection{Akış Diyagramları Ve Yalancı Kodlar}
+// TABLOLAR
+\includegraphics[width=7cm,height=9cm]{turn_matrix_to_roads_and_walls_flowchart.png}
+
+\includegraphics[width=8cm,height=21cm]{explore_map_flowchart.png}
+\\\\\\\\\\\\\\\\\\
+\includegraphics[width=8cm,height=21cm]{read_url_turn_to_matrix_flowchart.png}
+
+\section{Sonuç}
+
+
+\section{Kaynakça}
+
+
+\begin{thebibliography}{00}
+\bibitem{b1} https://www.geeetech.com/wiki/index.php/Arduino\_Mega\_2560\newline\newline
+\bibitem{b2} https://www.arduino.cc/\newline\newline
+\bibitem{b3}https://docs.arduino.cc/tutorials/ \newline\newline
+\bibitem{b4} https://www.robocombo.com/blog/icerik/arduino-7-segment-display-kullanimi\newline\newline
+\bibitem{b6}https://microdigisoft.com/control-the-led-using-ldr-with-arduino-in-proteus/\newline\newline
+\bibitem{b7} https://www.arduino.cc/reference/en/libraries/adafruit-gfx-library/\newline\newline
+\bibitem{b8}https://www.pygame.org/docs/ref/display.html\newline\newline
+\bibitem{b9}https://docs.arduino.cc/learn/electronics/lcd-displays\newline\newline
+\bibitem{b10}https://www.youtube.com/watch?v=q9UCSynDEw8\newline\newline
+\bibitem{b11}https://maker.robotistan.com/arduino-ders-1-led-yakip-sondurme-blink/\newline\newline
+\bibitem{b12}https://docs.arduino.cc/built-in-examples/digital/Button\newline\newline
+\end{thebibliography}
+\end{document}
